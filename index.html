@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lil Peep - Sync Lyrics</title>
+    <title>Lil Peep - Sincronizado</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --peep-pink: #ff85a1; --glass: rgba(255, 255, 255, 0.08); }
@@ -15,37 +15,52 @@
         h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 10px 0; background: linear-gradient(to right, var(--peep-pink), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .container { display: flex; flex-direction: column; gap: 30px; width: 100%; max-width: 500px; }
-        .card { background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 133, 161, 0.2); border-radius: 30px; padding: 20px; text-align: center; }
+        .card { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 133, 161, 0.2); border-radius: 35px; padding: 25px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
 
-        /* Player */
         .custom-player { background: #fff; border-radius: 50px; padding: 10px 15px; display: flex; align-items: center; gap: 10px; margin: 15px 0; color: #111; }
-        .play-btn { background: #111; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+        .play-btn { background: #111; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .play-btn:hover { transform: scale(1.1); }
         .progress-container { flex-grow: 1; height: 6px; background: rgba(0,0,0,0.1); border-radius: 10px; cursor: pointer; position: relative; }
         .progress-bar { height: 100%; background: var(--peep-pink); width: 0%; border-radius: 10px; }
-        .time-display { font-size: 0.8rem; font-weight: bold; min-width: 40px; }
+        .time-display { font-size: 0.8rem; font-weight: bold; min-width: 40px; font-family: monospace; }
 
         .song-title { font-size: 1.8rem; margin: 0; color: var(--peep-pink); font-weight: 700; }
-        .song-artist { opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        .song-artist { opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
 
-        /* Lyrics Sync System */
-        .lyrics-container { 
-            height: 250px; 
-            overflow-y: hidden; 
+        /* Contenedor de letras sincronizadas */
+        .lyrics-viewport { 
+            height: 220px; 
+            overflow: hidden; 
             position: relative; 
-            margin-top: 10px;
-            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            margin-top: 15px;
+            mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
         }
-        .lyrics-wrapper { transition: transform 0.3s ease-out; }
+        .lyrics-wrapper { 
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); 
+            will-change: transform;
+        }
         .lyric-line { 
-            padding: 10px 0; 
-            font-size: 1rem; 
-            color: rgba(255,255,255,0.3); 
-            transition: all 0.3s; 
-            line-height: 1.4;
+            padding: 12px 0; 
+            font-size: 1.1rem; 
+            color: rgba(255,255,255,0.2); 
+            transition: all 0.4s; 
+            line-height: 1.3;
         }
-        .lyric-line.active { color: white; transform: scale(1.05); font-weight: 600; text-shadow: 0 0 10px var(--peep-pink); }
-        .translation { display: block; font-size: 0.75rem; opacity: 0.7; font-style: italic; margin-top: 4px; }
+        .lyric-line.active { 
+            color: white; 
+            transform: scale(1.1); 
+            font-weight: 600; 
+            text-shadow: 0 0 15px var(--peep-pink); 
+        }
+        .translation { 
+            display: block; 
+            font-size: 0.8rem; 
+            opacity: 0.6; 
+            font-style: italic; 
+            margin-top: 5px; 
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
@@ -54,66 +69,68 @@
     <h1>For You</h1>
 
     <div class="container">
-        <!-- CANCIÓN 1: RIGHT HERE -->
-        <div class="card" id="card1">
+        <!-- CANCIÓN: RIGHT HERE -->
+        <div class="card">
             <p class="song-title">Right Here</p>
             <p class="song-artist">Lil Peep ft. Horse Head</p>
             <div class="custom-player">
                 <audio id="audio1" src="righthere.mp3"></audio>
-                <button class="play-btn" onclick="togglePlay('1')">▶</button>
+                <button class="play-btn" id="btn1" onclick="togglePlay('1')">▶</button>
                 <div class="time-display" id="time1">0:00</div>
                 <div class="progress-container" onclick="seek(event, '1')"><div class="progress-bar" id="bar1"></div></div>
             </div>
-            <div class="lyrics-container">
+            <div class="lyrics-viewport">
                 <div class="lyrics-wrapper" id="wrapper1"></div>
             </div>
         </div>
 
-        <!-- CANCIÓN 2: ABOUT YOU -->
-        <div class="card" id="card2">
+        <!-- CANCIÓN: ABOUT -->
+        <div class="card">
             <p class="song-title">About You</p>
             <p class="song-artist">Lil Peep ft. Mirsy</p>
             <div class="custom-player">
                 <audio id="audio2" src="about.mp3"></audio>
-                <button class="play-btn" onclick="togglePlay('2')">▶</button>
+                <button class="play-btn" id="btn2" onclick="togglePlay('2')">▶</button>
                 <div class="time-display" id="time2">0:00</div>
                 <div class="progress-container" onclick="seek(event, '2')"><div class="progress-bar" id="bar2"></div></div>
             </div>
-            <div class="lyrics-container">
+            <div class="lyrics-viewport">
                 <div class="lyrics-wrapper" id="wrapper2"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // DATOS DE LAS LETRAS (Tiempo en segundos, Texto original, Traducción)
+        // DATOS DE LAS LETRAS (Tiempo en segundos, Inglés, Español)
         const lyricsData = {
             '1': [
                 { t: 0, en: "Baby, how you doin'?", es: "¿Bebé, cómo estás?" },
                 { t: 3, en: "I know you're not fine", es: "Sé que no estás bien" },
-                { t: 6, en: "That's why I'm right here", es: "Por eso estoy justo aquí" },
-                { t: 9, en: "Baby, take your time", es: "Bebé, tómate tu tiempo" },
-                { t: 13, en: "I'm right here, I'm right here", es: "Estoy aquí, estoy aquí" },
-                { t: 17, en: "I'm not goin' nowhere", es: "No voy a ningún lado" },
-                { t: 20, en: "I'm right here", es: "Estoy aquí" },
+                { t: 6.5, en: "That's why I'm right here", es: "Por eso estoy justo aquí" },
+                { t: 9.5, en: "Baby, take your time", es: "Bebé, tómate tu tiempo" },
+                { t: 13, en: "I'm right here, I'm right here", es: "Estoy justo aquí, estoy aquí" },
+                { t: 16.5, en: "I'm not goin' nowhere", es: "No iré a ninguna parte" },
+                { t: 19.5, en: "I'm right here", es: "Estoy aquí" },
                 { t: 25, en: "Lookin' at the stars, lookin' at the moon", es: "Mirando las estrellas, mirando la luna" },
-                { t: 29, en: "I'll be right here waiting for you", es: "Estaré aquí mismo esperándote" },
-                { t: 33, en: "I'm not goin' nowhere", es: "No iré a ninguna parte" },
-                { t: 36, en: "I'll be right here waiting for you", es: "Estaré aquí esperándote" }
+                { t: 29, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" },
+                { t: 32.5, en: "I'm not goin' nowhere", es: "No iré a ningún lado" },
+                { t: 36, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" },
+                { t: 40, en: "Right here...", es: "Justo aquí..." }
             ],
             '2': [
                 { t: 0, en: "I'm about to go to the studio", es: "Estoy por ir al estudio" },
                 { t: 4, en: "Put my heart in it, put my soul in it", es: "Poner mi corazón, poner mi alma" },
-                { t: 8, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
-                { t: 12, en: "I'm about to go to the studio", es: "Estoy por ir al estudio" },
+                { t: 8.5, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
+                { t: 12.5, en: "I'm about to go to the studio", es: "Estoy por ir al estudio" },
                 { t: 16, en: "I'm about to go...", es: "Estoy por ir..." },
                 { t: 19, en: "I'll be thinkin' 'bout you", es: "Estaré pensando en ti" },
-                { t: 22, en: "I'll be thinkin' 'bout you all night long", es: "Pensaré en ti toda la noche" },
-                { t: 26, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" }
+                { t: 22.5, en: "I'll be thinkin' 'bout you all night long", es: "Pensaré en ti durante toda la noche" },
+                { t: 26.5, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
+                { t: 31, en: "I do it for you", es: "Lo hago por ti" }
             ]
         };
 
-        // Cargar letras en el HTML
+        // Función para cargar letras en el HTML
         function loadLyrics() {
             for (let id in lyricsData) {
                 const wrapper = document.getElementById('wrapper' + id);
@@ -129,8 +146,12 @@
 
         function togglePlay(id) {
             const audio = document.getElementById('audio' + id);
-            const btn = event.currentTarget;
-            document.querySelectorAll('audio').forEach(a => { if(a !== audio) a.pause(); });
+            const btn = document.getElementById('btn' + id);
+            
+            document.querySelectorAll('audio').forEach(a => { 
+                if(a !== audio) { a.pause(); document.getElementById('btn' + a.id.replace('audio', '')).innerText = '▶'; }
+            });
+
             if (audio.paused) { audio.play(); btn.innerText = '⏸'; } 
             else { audio.pause(); btn.innerText = '▶'; }
         }
@@ -143,15 +164,17 @@
             
             if (!audio.duration) return;
 
-            // Barra de progreso y tiempo
+            // Progreso de la barra
             const pct = (audio.currentTime / audio.duration) * 100;
             bar.style.width = pct + '%';
             let m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60);
             timeTxt.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
 
-            // Sincronización de letra
+            // Lógica de letras
             const lines = lyricsData[id];
             let activeIndex = -1;
+            
+            // Buscar cuál es la línea actual según el tiempo
             for (let i = 0; i < lines.length; i++) {
                 if (audio.currentTime >= lines[i].t) {
                     activeIndex = i;
@@ -159,13 +182,20 @@
             }
 
             if (activeIndex !== -1) {
+                // Quitar clase activa de todas
                 document.querySelectorAll(`#wrapper${id} .lyric-line`).forEach(l => l.classList.remove('active'));
+                
                 const activeLine = document.getElementById(`line-${id}-${activeIndex}`);
                 if (activeLine) {
                     activeLine.classList.add('active');
-                    // Desplazamiento automático
-                    const offset = activeLine.offsetTop - 100;
-                    wrapper.style.transform = `translateY(-${offset}px)`;
+                    
+                    // Calcular el movimiento: centrar la línea activa
+                    const viewportHeight = 220;
+                    const lineOffset = activeLine.offsetTop;
+                    const lineWeight = activeLine.offsetHeight;
+                    const finalMove = lineOffset - (viewportHeight / 2) + (lineWeight / 2);
+                    
+                    wrapper.style.transform = `translateY(-${finalMove}px)`;
                 }
             }
         }
@@ -173,13 +203,13 @@
         function seek(e, id) {
             const audio = document.getElementById('audio' + id);
             const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
             audio.currentTime = (x / rect.width) * audio.duration;
         }
 
-        // Estrellas
+        // Estrellas de fondo
         const starContainer = document.getElementById('star-container');
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
             const s = document.createElement('div');
             s.className = 'star';
             const size = Math.random() * 2 + 1 + 'px';
@@ -193,6 +223,10 @@
         window.onload = loadLyrics;
         document.getElementById('audio1').ontimeupdate = () => updateSync('1');
         document.getElementById('audio2').ontimeupdate = () => updateSync('2');
+        
+        // Resetear botón al terminar
+        document.getElementById('audio1').onended = () => document.getElementById('btn1').innerText = '▶';
+        document.getElementById('audio2').onended = () => document.getElementById('btn2').innerText = '▶';
     </script>
 </body>
 </html>
