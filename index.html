@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Right Here - Lil Peep</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --peep-pink: #ff85a1; /* Rosa característico de Lil Peep */
+            --peep-purple: #7b2cbf; 
+            --glass: rgba(255, 255, 255, 0.08); 
+        }
+
+        body { 
+            margin: 0; 
+            background: #050505; 
+            color: white; 
+            font-family: 'Outfit', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+
+        #star-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            background: radial-gradient(circle at center, #1a0b16 0%, #000 100%); 
+        }
+
+        .star { 
+            position: absolute; 
+            background: white; 
+            border-radius: 50%; 
+            animation: twinkle var(--d) infinite; 
+        }
+
+        @keyframes twinkle { 
+            0%, 100% { opacity: 0.3; transform: scale(1); } 
+            50% { opacity: 0.9; transform: scale(1.2); } 
+        }
+
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3rem; 
+            margin: 0 0 20px 0; 
+            background: linear-gradient(to right, var(--peep-pink), #ffffff); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-align: center; 
+        }
+
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            width: 100%; 
+            max-width: 400px; 
+        }
+
+        .card { 
+            background: var(--glass); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 133, 161, 0.2); 
+            border-radius: 35px; 
+            padding: 30px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7); 
+        }
+
+        .custom-player { 
+            background: rgba(255, 255, 255, 0.9); 
+            border-radius: 50px; 
+            padding: 10px 18px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin: 25px 0; 
+            color: #111; 
+        }
+
+        .play-btn { 
+            background: #111; 
+            border: none; 
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 0.9rem; 
+            flex-shrink: 0; 
+            transition: transform 0.2s;
+        }
+
+        .play-btn:active { transform: scale(0.9); }
+
+        .time-display { 
+            font-size: 0.8rem; 
+            min-width: 35px; 
+            font-weight: 700; 
+            font-family: monospace;
+        }
+
+        .progress-container { 
+            flex-grow: 1; 
+            height: 6px; 
+            background: rgba(0,0,0,0.1); 
+            border-radius: 10px; 
+            position: relative; 
+            cursor: pointer; 
+        }
+
+        .progress-bar { 
+            height: 100%; 
+            background: var(--peep-pink); 
+            width: 0%; 
+            border-radius: 10px; 
+        }
+
+        .song-title { 
+            font-size: 2.2rem; 
+            margin: 0; 
+            font-weight: 700; 
+            color: var(--peep-pink);
+            text-shadow: 0 0 15px rgba(255, 133, 161, 0.3);
+        }
+
+        .song-artist { 
+            opacity: 0.6; 
+            letter-spacing: 3px; 
+            margin-bottom: 15px; 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+        }
+
+        .lyrics-box { 
+            height: 200px; 
+            overflow-y: auto; 
+            font-size: 1rem; 
+            line-height: 1.8; 
+            color: #eee; 
+            scrollbar-width: none; 
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent); 
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent); 
+        }
+
+        .lyrics-box::-webkit-scrollbar { display: none; }
+
+        pre { 
+            white-space: pre-wrap; 
+            font-family: inherit; 
+            margin: 0; 
+            padding: 20px 0; 
+        }
+
+        .highlight { 
+            font-weight: 700; 
+            color: var(--peep-pink); 
+            text-shadow: 0 0 5px rgba(255, 133, 161, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="star-container"></div>
+
+    <h1>For You</h1>
+
+    <div class="container">
+        <div class="card">
+            <p class="song-title">Right Here</p>
+            <p class="song-artist">Lil Peep ft. Horse Head</p>
+
+            <div class="custom-player">
+                <!-- Asegúrate de tener el archivo righthere.mp3 en la misma carpeta -->
+                <audio id="audio" src="            " preload="auto"></audio>
+                <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+                <div class="time-display" id="time">0:00</div>
+                <div class="progress-container" onclick="seek(event)">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="lyrics-box">
+                <pre>
+Baby, how you doin'? 
+I know you're not fine
+That's why I'm right here
+<span class="highlight">Baby, take your time</span>
+
+I'm right here, I'm right here
+I'm not goin' nowhere
+<span class="highlight">I'm right here.</span>
+
+Lookin' at the stars
+Lookin' at the moon
+I'll be right here
+Waiting for you.
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generar estrellas
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 70; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = Math.random() * 2 + 1 + 'px';
+            s.style.width = size; 
+            s.style.height = size;
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            // Estrellas a veces rosadas
+            if(Math.random() > 0.8) s.style.background = '#ff85a1';
+            s.style.setProperty('--d', Math.random() * 3 + 2 + 's');
+            starContainer.appendChild(s);
+        }
+
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const timeTxt = document.getElementById('time');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = '⏸';
+            } else {
+                audio.pause();
+                playBtn.innerText = '▶';
+            }
+        }
+
+        audio.ontimeupdate = () => {
+            if (audio.duration) {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = percentage + '%';
+                
+                let m = Math.floor(audio.currentTime / 60);
+                let s = Math.floor(audio.currentTime % 60);
+                timeTxt.innerText = m + ":" + (s < 10 ? '0' : '') + s;
+            }
+        };
+
+        function seek(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            audio.currentTime = (x / rect.width) * audio.duration;
+        }
+
+        // Resetear botón al terminar la canción
+        audio.onended = () => {
+            playBtn.innerText = '▶';
+            progressBar.style.width = '0%';
+        };
+    </script>
+</body>
+</html>
