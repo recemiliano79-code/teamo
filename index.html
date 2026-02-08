@@ -8,7 +8,6 @@
     <style>
         :root { 
             --peep-pink: #ff85a1; 
-            --peep-dark: #1a1a1a;
             --glass: rgba(255, 255, 255, 0.08); 
         }
 
@@ -44,19 +43,13 @@
             text-align: center; 
         }
 
-        .container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 25px; 
-            width: 100%; 
-            max-width: 420px; 
-        }
+        .container { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 400px; }
 
         .card { 
             background: var(--glass); 
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 133, 161, 0.15); 
+            border: 1px solid rgba(255, 133, 161, 0.2); 
             border-radius: 35px; 
             padding: 25px; 
             text-align: center; 
@@ -75,34 +68,26 @@
         }
 
         .play-btn { 
-            background: #111; border: none; width: 32px; height: 32px; 
+            background: #111; border: none; width: 35px; height: 35px; 
             border-radius: 50%; cursor: pointer; display: flex; 
             align-items: center; justify-content: center; color: white; 
-            font-size: 0.8rem; flex-shrink: 0; 
+            font-size: 0.9rem; flex-shrink: 0; 
         }
 
-        .time-display { font-size: 0.75rem; min-width: 35px; font-weight: 700; font-family: monospace; }
-        
-        .progress-container { 
-            flex-grow: 1; height: 5px; background: rgba(0,0,0,0.1); 
-            border-radius: 10px; position: relative; cursor: pointer; 
-        }
-
+        .time-display { font-size: 0.8rem; min-width: 35px; font-weight: 700; }
+        .progress-container { flex-grow: 1; height: 5px; background: rgba(0,0,0,0.1); border-radius: 10px; cursor: pointer; position: relative; }
         .progress-bar { height: 100%; background: var(--peep-pink); width: 0%; border-radius: 10px; }
 
         .song-title { font-size: 1.8rem; margin: 0; font-weight: 700; color: var(--peep-pink); }
         .song-artist { opacity: 0.5; letter-spacing: 2px; margin-bottom: 10px; font-size: 0.7rem; text-transform: uppercase; }
 
         .lyrics-box { 
-            height: 160px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; 
-            color: #ddd; scrollbar-width: none; 
+            height: 140px; overflow-y: auto; font-size: 0.9rem; line-height: 1.6; 
             mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
         }
-
-        .lyrics-box::-webkit-scrollbar { display: none; }
-        pre { white-space: pre-wrap; font-family: inherit; margin: 0; padding: 15px 0; }
-        .highlight { font-weight: 700; color: white; border-bottom: 1px solid var(--peep-pink); }
+        pre { white-space: pre-wrap; font-family: inherit; margin: 0; padding: 10px 0; color: #eee; }
+        .highlight { color: var(--peep-pink); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -112,84 +97,70 @@
     <h1>For You</h1>
 
     <div class="container">
-        <!-- CANCIÓN 1: RIGHT HERE -->
+        <!-- CARTA 1: RIGHT HERE -->
         <div class="card">
             <p class="song-title">Right Here</p>
             <p class="song-artist">Lil Peep ft. Horse Head</p>
-            
             <div class="custom-player">
                 <audio id="audio1" src="righthere.mp3" preload="auto"></audio>
                 <button class="play-btn" id="btn1" onclick="togglePlay('1')">▶</button>
                 <div class="time-display" id="time1">0:00</div>
-                <div class="progress-container" onclick="seek(event, '1')">
-                    <div class="progress-bar" id="bar1"></div>
-                </div>
+                <div class="progress-container" onclick="seek(event, '1')"><div class="progress-bar" id="bar1"></div></div>
             </div>
-
             <div class="lyrics-box"><pre>
 I know you're not fine
 That's why I'm right here
 <span class="highlight">Baby, take your time</span>
-I'm not goin' nowhere
-I'm right here.
+I'm not goin' nowhere.
             </pre></div>
         </div>
 
-        <!-- CANCIÓN 2: ABOUT YOU -->
+        <!-- CARTA 2: ABOUT YOU -->
         <div class="card">
             <p class="song-title">About You</p>
             <p class="song-artist">Lil Peep ft. Mirsy</p>
-            
             <div class="custom-player">
-                <audio id="audio2" src="aboutyou.mp3" preload="auto"></audio>
+                <!-- AQUÍ CAMBIÉ EL NOMBRE A about.mp3 PARA QUE COINCIDA CON TU GITHUB -->
+                <audio id="audio2" src="about.mp3" preload="auto"></audio>
                 <button class="play-btn" id="btn2" onclick="togglePlay('2')">▶</button>
                 <div class="time-display" id="time2">0:00</div>
-                <div class="progress-container" onclick="seek(event, '2')">
-                    <div class="progress-bar" id="bar2"></div>
-                </div>
+                <div class="progress-container" onclick="seek(event, '2')"><div class="progress-bar" id="bar2"></div></div>
             </div>
-
             <div class="lyrics-box"><pre>
-I'm about to go
-To the studio
+Everything I do
+I do it for you
 <span class="highlight">Put my heart in it</span>
-Put my soul in it
-Everything I do, I do for you.
+I'm about to go.
             </pre></div>
         </div>
     </div>
 
     <script>
-        // Estrellas de fondo
+        // Estrellas
         const starContainer = document.getElementById('star-container');
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 50; i++) {
             const s = document.createElement('div');
             s.className = 'star';
             const size = Math.random() * 2 + 1 + 'px';
             s.style.width = size; s.style.height = size;
             s.style.left = Math.random() * 100 + '%';
             s.style.top = Math.random() * 100 + '%';
-            if(Math.random() > 0.8) s.style.background = '#ff85a1';
             s.style.setProperty('--d', Math.random() * 3 + 2 + 's');
             starContainer.appendChild(s);
         }
 
-        // Lógica del reproductor
+        // Control de reproducción
         function togglePlay(id) {
             const audio = document.getElementById('audio' + id);
             const btn = document.getElementById('btn' + id);
             
-            // Pausar otros audios si están sonando
+            // Pausar la otra si está sonando
             document.querySelectorAll('audio').forEach(a => {
-                if (a !== audio) {
-                    a.pause();
-                    const otherId = a.id.replace('audio', '');
-                    document.getElementById('btn' + otherId).innerText = '▶';
-                }
+                if (a !== audio) { a.pause(); document.getElementById('btn' + a.id.slice(-1)).innerText = '▶'; }
             });
 
             if (audio.paused) {
-                audio.play().catch(e => alert("Error: Verifica que el archivo mp3 esté en la carpeta y se llame correctamente."));
+                audio.play();
                 btn.innerText = '⏸';
             } else {
                 audio.pause();
@@ -201,13 +172,9 @@ Everything I do, I do for you.
             const audio = document.getElementById('audio' + id);
             const bar = document.getElementById('bar' + id);
             const timeTxt = document.getElementById('time' + id);
-            
             if (audio.duration) {
-                const percentage = (audio.currentTime / audio.duration) * 100;
-                bar.style.width = percentage + '%';
-                
-                let m = Math.floor(audio.currentTime / 60);
-                let s = Math.floor(audio.currentTime % 60);
+                bar.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+                let m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60);
                 timeTxt.innerText = m + ":" + (s < 10 ? '0' : '') + s;
             }
         }
@@ -219,13 +186,8 @@ Everything I do, I do for you.
             audio.currentTime = (x / rect.width) * audio.duration;
         }
 
-        // Vincular eventos
         document.getElementById('audio1').ontimeupdate = () => updateProgress('1');
         document.getElementById('audio2').ontimeupdate = () => updateProgress('2');
-        
-        // Reset al terminar
-        document.getElementById('audio1').onended = () => document.getElementById('btn1').innerText = '▶';
-        document.getElementById('audio2').onended = () => document.getElementById('btn2').innerText = '▶';
     </script>
 </body>
 </html>
