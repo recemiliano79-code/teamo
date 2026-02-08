@@ -3,52 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lil Peep - Letras Completas</title>
+    <title>Para Mi Persona Especial</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --peep-pink: #ff85a1; --glass: rgba(255, 255, 255, 0.08); }
+        :root { 
+            --peep-pink: #ff85a1; 
+            --deep-purple: #120412;
+            --glass: rgba(255, 255, 255, 0.05); 
+        }
+
         body { 
-            margin: 0; background: #050505; color: white; font-family: 'Outfit', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh; 
-            overflow-x: hidden; padding: 20px; box-sizing: border-box; 
+            margin: 0; 
+            background: var(--deep-purple); 
+            color: white; 
+            font-family: 'Outfit', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+
+        /* FONDO MEJORADO */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1d091d 0%, #050505 100%);
         }
         
-        #star-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0b16 0%, #000 100%); }
+        .nebula {
+            position: fixed; width: 300px; height: 300px; 
+            background: var(--peep-pink); filter: blur(150px);
+            border-radius: 50%; opacity: 0.15; z-index: -1;
+            animation: drift 20s infinite alternate;
+        }
+
+        @keyframes drift {
+            from { transform: translate(-50%, -50%); }
+            to { transform: translate(50%, 50%); }
+        }
+
         .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.2); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 10px 0; background: linear-gradient(to right, var(--peep-pink), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3.5rem; 
+            margin: 30px 0; 
+            background: linear-gradient(to right, var(--peep-pink), #ffffff); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255, 133, 161, 0.5));
+        }
 
-        .container { display: flex; flex-direction: column; gap: 30px; width: 100%; max-width: 500px; }
-        .card { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 133, 161, 0.2); border-radius: 35px; padding: 25px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .container { display: flex; flex-direction: column; gap: 40px; width: 100%; max-width: 450px; }
 
-        .custom-player { background: #fff; border-radius: 50px; padding: 10px 15px; display: flex; align-items: center; gap: 10px; margin: 15px 0; color: #111; }
-        .play-btn { background: #111; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+        .card { 
+            background: var(--glass); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 40px; 
+            padding: 25px; 
+            text-align: center; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            transition: transform 0.3s;
+        }
+
+        .custom-player { 
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 50px; 
+            padding: 12px 18px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin: 20px 0; 
+            color: #111; 
+        }
+
+        .play-btn { 
+            background: #111; border: none; width: 42px; height: 42px; 
+            border-radius: 50%; cursor: pointer; color: white; 
+            display: flex; align-items: center; justify-content: center; font-size: 1rem;
+        }
+
         .progress-container { flex-grow: 1; height: 6px; background: rgba(0,0,0,0.1); border-radius: 10px; cursor: pointer; position: relative; }
         .progress-bar { height: 100%; background: var(--peep-pink); width: 0%; border-radius: 10px; }
-        .time-display { font-size: 0.8rem; font-weight: bold; min-width: 40px; font-family: monospace; }
+        .time-display { font-size: 0.8rem; font-weight: bold; font-family: monospace; }
 
-        .song-title { font-size: 1.8rem; margin: 0; color: var(--peep-pink); font-weight: 700; }
-        .song-artist { opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        .song-title { font-size: 2rem; margin: 0; color: var(--peep-pink); font-weight: 700; text-shadow: 0 0 15px rgba(255, 133, 161, 0.3); }
+        .song-artist { opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; margin-top: 5px; }
 
-        /* Contenedor de letras sincronizadas */
+        /* SINCRO DE LETRAS */
         .lyrics-viewport { 
-            height: 250px; 
-            overflow: hidden; 
-            position: relative; 
-            margin-top: 15px;
-            mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+            height: 200px; overflow: hidden; position: relative; margin-top: 20px;
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
         }
-        .lyrics-wrapper { transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); will-change: transform; }
-        .lyric-line { padding: 15px 0; font-size: 1.1rem; color: rgba(255,255,255,0.2); transition: all 0.4s; line-height: 1.3; }
-        .lyric-line.active { color: white; transform: scale(1.1); font-weight: 600; text-shadow: 0 0 15px var(--peep-pink); }
-        .translation { display: block; font-size: 0.85rem; opacity: 0.6; font-style: italic; margin-top: 5px; font-weight: 300; }
+        .lyrics-wrapper { transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); }
+        .lyric-line { padding: 15px 0; font-size: 1.1rem; color: rgba(255,255,255,0.2); transition: all 0.4s; }
+        .lyric-line.active { color: white; transform: scale(1.1); font-weight: 600; text-shadow: 0 0 10px var(--peep-pink); }
+        .translation { display: block; font-size: 0.8rem; opacity: 0.5; font-style: italic; margin-top: 5px; }
+
+        /* NOTA DE AMOR */
+        .love-note {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 30px;
+            text-align: center;
+            background: rgba(255, 133, 161, 0.1);
+            border-radius: 30px;
+            border: 1px dashed var(--peep-pink);
+            max-width: 400px;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .love-note p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: var(--peep-pink);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="star-container"></div>
+    <div id="bg-canvas"></div>
+    <div class="nebula" style="top: 20%; left: 20%;"></div>
+    <div class="nebula" style="top: 70%; left: 80%; background: #7b2cbf;"></div>
+
     <h1>For You</h1>
 
     <div class="container">
@@ -67,9 +157,9 @@
             </div>
         </div>
 
-        <!-- CANCIÓN: ABOUT -->
+        <!-- CANCIÓN: ABOUT U -->
         <div class="card">
-            <p class="song-title">About You</p>
+            <p class="song-title">About U</p>
             <p class="song-artist">Lil Peep ft. Mirsy</p>
             <div class="custom-player">
                 <audio id="audio2" src="about.mp3"></audio>
@@ -81,10 +171,15 @@
                 <div class="lyrics-wrapper" id="wrapper2"></div>
             </div>
         </div>
+
+        <!-- NOTA DE AMOR FINAL -->
+        <div class="love-note">
+            <p>"Eres mi estrella favorita en este cielo oscuro. <br> Todo lo que hago, lo hago por ti."</p>
+            <span style="font-size: 0.8rem; opacity: 0.5; margin-top: 10px; display: block;">♥ Siempre para ti ♥</span>
+        </div>
     </div>
 
     <script>
-        // LETRAS COMPLETAS Y TIEMPOS (Ajustados a la música)
         const lyricsData = {
             '1': [
                 { t: 0, en: "...", es: "..." },
@@ -99,31 +194,22 @@
                 { t: 39.5, en: "Lookin' at the stars, lookin' at the moon", es: "Mirando las estrellas, mirando la luna" },
                 { t: 43, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" },
                 { t: 46.5, en: "I'm not goin' nowhere", es: "No iré a ningún lado" },
-                { t: 49.5, en: "No, I'm not goin' nowhere", es: "No, no iré a ningún lado" },
-                { t: 53, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" },
-                { t: 57, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" },
-                { t: 63, en: "I'm right here, I'm right here", es: "Estoy aquí, estoy aquí" },
-                { t: 67, en: "I'm not goin' nowhere", es: "No voy a ninguna parte" }
+                { t: 53, en: "I'll be right here waiting for you", es: "Estaré justo aquí esperándote" }
             ],
             '2': [
                 { t: 0, en: "...", es: "..." },
-                { t: 12, en: "I'm about to go to the studio", es: "Estoy a punto de ir al estudio" },
-                { t: 15.5, en: "Put my heart in it, put my soul in it", es: "Poner mi corazón, poner mi alma" },
+                { t: 12, en: "I'm about to go to the studio", es: "Estoy por ir al estudio" },
+                { t: 15.5, en: "Put my heart in it, put my soul in it", es: "Poner mi corazón y mi alma en ello" },
                 { t: 19, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
                 { t: 22.5, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
-                { t: 26, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
                 { t: 30, en: "I'll be thinkin' 'bout you", es: "Estaré pensando en ti" },
-                { t: 33, en: "I'll be thinkin' 'bout you all night long", es: "Estaré pensando en ti toda la noche" },
-                { t: 37, en: "Singing you this song, singing you this song", es: "Cantándote esta canción, cantándote esta canción" },
-                { t: 40.5, en: "Singing you this song for you", es: "Cantándote esta canción para ti" },
+                { t: 33, en: "I'll be thinkin' 'bout you all night long", es: "Pensaré en ti durante toda la noche" },
+                { t: 37, en: "Singing you this song", es: "Cantándote esta canción" },
                 { t: 44, en: "Boy, you know I'm thinkin' 'bout you too", es: "Chico, sabes que yo también pienso en ti" },
-                { t: 48, en: "Everything you do, I do it too", es: "Todo lo que haces, yo también lo hago" },
-                { t: 51, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" },
-                { t: 55, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" }
+                { t: 51, en: "Everything I do, I do it for you", es: "Todo lo que hago, lo hago por ti" }
             ]
         };
 
-        // Cargar letras al inicio
         function loadLyrics() {
             for (let id in lyricsData) {
                 const wrapper = document.getElementById('wrapper' + id);
@@ -140,11 +226,7 @@
         function togglePlay(id) {
             const audio = document.getElementById('audio' + id);
             const btn = document.getElementById('btn' + id);
-            
-            document.querySelectorAll('audio').forEach(a => { 
-                if(a !== audio) { a.pause(); document.getElementById('btn' + a.id.replace('audio', '')).innerText = '▶'; }
-            });
-
+            document.querySelectorAll('audio').forEach(a => { if(a !== audio) { a.pause(); document.getElementById('btn' + a.id.replace('audio','')).innerText = '▶'; } });
             if (audio.paused) { audio.play(); btn.innerText = '⏸'; } 
             else { audio.pause(); btn.innerText = '▶'; }
         }
@@ -154,30 +236,20 @@
             const bar = document.getElementById('bar' + id);
             const timeTxt = document.getElementById('time' + id);
             const wrapper = document.getElementById('wrapper' + id);
-            
             if (!audio.duration) return;
-
-            const pct = (audio.currentTime / audio.duration) * 100;
-            bar.style.width = pct + '%';
+            bar.style.width = (audio.currentTime / audio.duration) * 100 + '%';
             let m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60);
             timeTxt.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-
             const lines = lyricsData[id];
             let activeIndex = -1;
-            for (let i = 0; i < lines.length; i++) {
-                if (audio.currentTime >= lines[i].t) activeIndex = i;
-            }
-
+            for (let i = 0; i < lines.length; i++) { if (audio.currentTime >= lines[i].t) activeIndex = i; }
             if (activeIndex !== -1) {
                 document.querySelectorAll(`#wrapper${id} .lyric-line`).forEach(l => l.classList.remove('active'));
                 const activeLine = document.getElementById(`line-${id}-${activeIndex}`);
                 if (activeLine) {
                     activeLine.classList.add('active');
-                    const viewportHeight = 250;
-                    const lineOffset = activeLine.offsetTop;
-                    const lineWeight = activeLine.offsetHeight;
-                    const finalMove = lineOffset - (viewportHeight / 2) + (lineWeight / 2);
-                    wrapper.style.transform = `translateY(-${finalMove}px)`;
+                    const offset = activeLine.offsetTop - 80;
+                    wrapper.style.transform = `translateY(-${offset}px)`;
                 }
             }
         }
@@ -189,8 +261,8 @@
             audio.currentTime = (x / rect.width) * audio.duration;
         }
 
-        const starContainer = document.getElementById('star-container');
-        for (let i = 0; i < 60; i++) {
+        const bg = document.getElementById('bg-canvas');
+        for (let i = 0; i < 70; i++) {
             const s = document.createElement('div');
             s.className = 'star';
             const size = Math.random() * 2 + 1 + 'px';
@@ -198,14 +270,12 @@
             s.style.left = Math.random() * 100 + '%';
             s.style.top = Math.random() * 100 + '%';
             s.style.setProperty('--d', Math.random() * 3 + 2 + 's');
-            starContainer.appendChild(s);
+            bg.appendChild(s);
         }
 
         window.onload = loadLyrics;
         document.getElementById('audio1').ontimeupdate = () => updateSync('1');
         document.getElementById('audio2').ontimeupdate = () => updateSync('2');
-        document.getElementById('audio1').onended = () => document.getElementById('btn1').innerText = '▶';
-        document.getElementById('audio2').onended = () => document.getElementById('btn2').innerText = '▶';
     </script>
 </body>
 </html>
